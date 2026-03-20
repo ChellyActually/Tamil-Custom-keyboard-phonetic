@@ -1,0 +1,84 @@
+﻿store(&Version) "10.0"
+store(&NAME) 'Tamil Anjal custom'
+store(&TARGETS) 'any'
+
+begin Unicode > use(main)
+
+group(main) using keys
+
+c --- 1. THE ONLY STORE WE NEED ---
+c This contains exactly 22 single characters. No length mismatches!
+store(Consonant) 'கஙசஞடணதநபமயரலவழளறனஜஸஷஹ'
+
+c --- 2. BASE CONSONANTS ---
+c Typing the English letter outputs the Consonant + Pulli (Dot)
++ 'k' > 'க்'
++ 's' > 'ச்'
++ 'c' > 'ச்'
++ 'd' > 'ட்'
++ 'N' > 'ண்'
++ 't' > 'ட்'   c Setup for 'th' rule below
++ 'p' > 'ப்'
++ 'm' > 'ம்'
++ 'y' > 'ய்'
++ 'r' > 'ர்'
++ 'l' > 'ல்'
++ 'v' > 'வ்'
++ 'w' > 'வ்'   c Common alternative for v
++ 'z' > 'ழ்'   c Setup for 'zh' rule below
++ 'L' > 'ள்'
++ 'R' > 'ற்'
++ 'n' > 'ன்'
++ 'j' > 'ஜ்'
++ 'S' > 'ஸ்'
++ 'h' > 'ஹ்'
+
+c --- 3. MULTI-KEY CONSONANTS ---
+c If a dotted letter is on screen, and you press the next key in the sequence
+'ன்' + 'g' > 'ங்'
+'ன்' + 'j' > 'ஞ்'
+'ட்' + 'h' > 'த்'
+'ன்' + '-' > 'ந்'
+'ச்' + 'h' > 'ஷ்'
+'ழ்' + 'h' > 'ழ்'
+
+c --- 4. APPLYING VOWELS (REPLACING THE DOT) ---
+c If there is a dot (்) on the screen, and you type a vowel, it replaces the dot!
+'்' + 'a' > nul   c Deletes the dot (e.g., க் + a = க)
+'்' + 'i' > 'ி'   c Replaces dot with 'i' sound (க் + i = கி)
+'்' + 'u' > 'ு'
+'்' + 'e' > 'ெ'
+'்' + 'o' > 'ொ'
+
+c --- 5. EXTENDING TO LONG VOWELS ---
+c If the letter has NO dot (meaning 'a' was already typed), add the long marker
+any(Consonant) + 'a' > context 'ா'
+any(Consonant) + 'i' > context 'ை'
+any(Consonant) + 'u' > context 'ௌ'
+
+c Extending other short matras to long matras (e.g., e + e = ee)
+'ி' + 'i' > 'ீ'
+'ு' + 'u' > 'ூ'
+'ெ' + 'e' > 'ே'
+'ொ' + 'o' > 'ோ'
+
+c --- 6. STANDALONE VOWELS (START OF WORDS) ---
++ 'a' > 'அ'
++ 'i' > 'இ'
++ 'u' > 'உ'
++ 'e' > 'எ'
++ 'o' > 'ஒ'
+
+'அ' + 'a' > 'ஆ'
+'இ' + 'i' > 'ஈ'
+'உ' + 'u' > 'ஊ'
+'எ' + 'e' > 'ஏ'
+'ஒ' + 'o' > 'ஓ'
+
+'அ' + 'i' > 'ஐ'
+'அ' + 'u' > 'ஔ'
+
+c --- 7. BASIC SPACING & PUNCTUATION ---
++ [K_SPACE] > U+0020
++ [K_PERIOD] > U+002E
++ [K_COMMA] > U+002C
